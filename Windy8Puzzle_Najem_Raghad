@@ -1,0 +1,28 @@
+class Puzzle:
+    """This is the class that holds the whole game"""
+    pass
+
+    class minPQ:
+        pass
+    
+    class Hashtable:
+        pass
+    
+    def Board():
+        def __init__(self):
+            self.array = array()
+        pass
+    
+        def Find(self, PuzzleNum):
+            for row in self.array:
+                if PuzzleNum in Board[row]:
+                    for col in self.array[row]:
+                        if PuzzleNum == Board[row][col]:
+                            IndexPosition = (row, col)
+                            return (IndexPosition)
+                else:
+                    next
+                    
+        def FindBlank(self):
+            Find(self, '-')
+            
