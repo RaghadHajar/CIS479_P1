@@ -17,6 +17,9 @@ void Print(int game[][3])
         
         cout << endl << " ----------" << endl;
     }
+    cout<<"|"<<"f(n)"<<"|"<<"g(n)"<<" |"<<endl<<" ----------" << endl;
+    cout<<"|"<<"   #C    "<<" |"<<endl<<" ----------"<<endl;
+    
 }
 
 int main() {
