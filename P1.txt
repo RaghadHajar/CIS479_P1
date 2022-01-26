@@ -1,0 +1,28 @@
+#include <iostream>
+#include <queue>
+#include <iomanip>
+
+using namespace std;
+
+void Print(int game[][3])
+{
+    cout << " ----------" << endl;
+    for (int i = 0; i < 3; i++)
+    {
+        cout<<"|";
+        for (int j = 0; j < 3; j++)
+        {
+            cout << game[i][j] << " | ";
+        }
+        
+        cout << endl << " ----------" << endl;
+    }
+}
+
+int main() {
+    
+    int board[3][3]={{1,2,3},{3,4,5},{6,7,8}};
+    Print(board);
+    return 0;
+}
+
