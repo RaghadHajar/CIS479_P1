@@ -19,8 +19,8 @@ class Puzzle: #Raghad and #Najem
     
     class Board:
         """Class to store all board types and related functions"""
-        def __init__(self):
-            self.arrayBoard = [[]]
+        def __init__(self,NumRow,NumCol):
+            self.arrayBoard = [[0]*NumCol for i in range(NumRow)]
             self.fFunctionValue = 0 #Maps to right
             self.gFunctionValue = 0  #Maps to left
             self.ExpansionSetNum = 1 #Bottom Row with a # before the number ex #1
@@ -37,35 +37,32 @@ class Puzzle: #Raghad and #Najem
                         self.BoardOutput += "_"*len(self.arrayBoard)*2
                         
         def __eq__(self, OtherBoard):
-            if len(self.arrayBoard) == len(OtherBoard.arrayBoard):
+            listTruthValues = []
+            if (len(self.arrayBoard) == len(OtherBoard.arrayBoard)):
                 for row in range(len(self.arrayBoard)):
                     for col in range(len(self.arrayBoard)):
                         if self.arrayBoard[row][col] != OtherBoard.arrayBoard[row][col]:
                             return False
-                return True
-            else
+            else:
                 return False
                 
-        def __setattr__
-                        
+                
+        def __setattr__(self,Name,Value):
+            self.__dict__[Name] = Value
             
         def fnPopulateBoard(self, listPuzzleNum):
             """Enter the positions of the arrayBoard by using a vector
-            of the Puzzle Numbers (listPuzzleNum) as strings
+            of the Puzzle Numbers (listPuzzleNum)
             Send it in the order of top left to bottom right
             Don't forget the '-' blank value
             """
-            for indexPuzzleNum in range(len(listPuzzleNum)):
-                if (len(listPuzzleNum) + 1) % (len(self.arrayBoard) + 1) == 0:
-                    if indexPuzzleNum <= len(self.arrayBoard[0]):
-                        self.arrayBoard[0][indexPuzzleNum] = listPuzzleNum[indexPuzzleNum]
-                    elif ((indexPuzzleNum+1)- (len(self.arrayBoard[0])+1)) <= (len(self.arrayBoard[0])+1):
-                        RowNumber = indexPuzzleNum // len(self.arrayBoard[0]) 
-                        ColNumber = indexPuzzleNum % len(self.arrayBoard)
-                else:
-                    print("The length of the listPuzzleNum is incorrect")
-                        
-            
+            if len(listPuzzleNum) % len(self.arrayBoard) != 0:
+                print("The length of the list is incorrent")
+            else: 
+                for indexPuzzleNum in range(len(listPuzzleNum)):
+                    RowNum = indexPuzzleNum // len(self.arrayBoard)
+                    ColNum = indexPuzzleNum % len(self.arrayBoard)
+                    self.arrayBoard[RowNum][ColNum] = listPuzzleNum[indexPuzzleNum]
     
         def fnFind(self, PuzzleNum):
             for row in range(len(self.arrayBoard)):
@@ -91,5 +88,3 @@ class Puzzle: #Raghad and #Najem
         
         def fnCalculateF(self):
             pass
-        
-print(4//4)
