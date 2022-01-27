@@ -2,27 +2,66 @@ class Puzzle:
     """This is the class that holds the whole game"""
     pass
 
-    class minPQ:
+    class MinPQ:
+        """A minimum priority queue. 
+        Can be used for ordering h(n), selecting f(n) and must be used for the frontier set
+        As directed by the professor we do not have to build from scrath
+        use an implementation of heapq. Library info found here:
+        https://docs.python.org/3/library/heapq.html """
         pass
     
     class Hashtable:
+        """Data structure to be used for storage of explored set. 
+        As directed by the porfessor we do not have to build from scratch
+        Using code from:
+        https://thepythoncorner.com/posts/2020-08-21-hash-tables-understanding-dictionaries/ """
         pass
     
-    def Board():
+    class Board:
+        """Class to store all board types and related functions"""
         def __init__(self):
-            self.array = array()
-        pass
+            self.arrayBoard = array()
+            self.fFunctionValue = 0 #Maps to left
+            self.gFunctionValue = 0  #Maps to right
+            self.ExpansionSetNum = 1 #Bottom Row with a # before the number ex #1
+            self.BoardOutput = ""
+            
+        def __print__(self):
+            for row in range(len(self.arrayBoard)):
+                if row == 0:
+                    self.BoardOutput = "_"*len(self.arrayBoard)*2 + "/n"
+                for col in range(len(self.arrayBoard[row])):
+                    if col == 0 && row == 0:
+                        self.BoardOutput += "|"
+                    if row == len(self.arrayBoard) && col == len(self.arrayBoard):
+                        self.BoardOutput += "_"*len(self.arrayBoard)*2
+            print()
     
-        def Find(self, PuzzleNum):
-            for row in self.array:
-                if PuzzleNum in Board[row]:
-                    for col in self.array[row]:
-                        if PuzzleNum == Board[row][col]:
+        def fnPopulateBoard(self, listPuzzleNum):
+            """Enter the positions of the arrayBoard by using a vector
+            of the Puzzle Numbers (listPuzzleNum) as strings
+            Send it in the order of top left to bottom right
+            Don't forget the '-' blank value
+            """
+            for indexPuzzleNum in range(len(listPuzzleNum)):
+                if len(listPuzzleNum % len(self.arrayBoard)) == 0:
+                    if indexPuzzleNum <= len(self.arrayBoard[0]):
+                        self.arrayBoard[]
+                else:
+                    print("The length of the listPuzzleNum is incorrect")
+                        
+            
+    
+        def fnFind(self, PuzzleNum):
+            for row in range(len(self.arrayBoard)):
+                if PuzzleNum in range(len(self.arrayBoard[row])):
+                    for col in self.arrayBoard[row]:
+                        if PuzzleNum == self.arrayBoard[row][col]:
                             IndexPosition = (row, col)
                             return (IndexPosition)
                 else:
                     next
                     
-        def FindBlank(self):
+        def fnFindBlank(self):
             Find(self, '-')
             
