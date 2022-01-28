@@ -7,24 +7,48 @@ class Puzzle: #Raghad and #Najem
         Can be used for ordering h(n), selecting f(n) and must be used for the frontier set
         As directed by the professor we do not have to build from scrath
         use an implementation of heapq. Library info found here:"""
-        #https://docs.python.org/3/library/heapq.html """
+        #https://thepythoncorner.com/posts/2020-08-21-hash-tables-understanding-dictionaries/ """
+
         pass
     
     class Hashtable:
         """Data structure to be used for storage of explored set. 
+        Will be used at the end of the puzzle to print all boards for the path
         As directed by the porfessor we do not have to build from scratch
-        Using code from:"""
-        #https://thepythoncorner.com/posts/2020-08-21-hash-tables-understanding-dictionaries/ """
+        Using code from"""
+         ##https://docs.python.org/3/library/heapq.html """
+        
         pass
     
+    class Move:
+        def __init__(self
+        ,StartingIndex = ()
+        ,NewIndex = ()
+        ,InitialOrder = 0
+        ,PuzzleNum = '-'
+        ,PuzzleGoalIndex = ()
+        ,GValue = 0
+        ,HValue = 0
+        ):
+            self.InitialOrder = InitialOrder 
+            self.StartingIndex = StartingIndex
+            self.NewIndex = NewIndex
+            self.PuzzleNum = PuzzleNum
+            self.PuzzleGoalIndex = PuzzleGoalIndex
+            self.GValue = GValue
+            self.HValue = HValue
+            
+
     class Board:
         """Class to store all board types and related functions"""
         def __init__(self,NumRow,NumCol):
             self.arrayBoard = [[0]*NumCol for i in range(NumRow)]
             self.fFunctionValue = 0 #Maps to right
             self.gFunctionValue = 0  #Maps to left
+            self.hFunctionValue = None  #Doesn't map
             self.ExpansionSetNum = 1 #Bottom Row with a # before the number ex #1
             self.BoardOutput = ""
+            self.FrontierSet = MinPQ
             
         def __print__(self):
             for row in range(len(self.arrayBoard)):
@@ -77,14 +101,73 @@ class Puzzle: #Raghad and #Najem
         def fnFindBlank(self):
             Find(self, '-')
             
-        def fnFindPossibleMoves(self):
+        def fnFindPossibleMoves(self, tupleIndex=()):
+            """ Check for the possible movesets in the directed way:
+            West, North, East, South
+            Col - 1, Row - 1, Col + 1, Row + 1
+            Update frontier set PQ with possible moves.
+            """
+            Move1 = Move()
+            Move2 = Move()
+            Move3 = Move()
+            Move4 = Move()
+            
+            if tupleIndex == ():
+                IndexPosStart = self.fnFindBlank()
+            else:
+                IndexPosStart = tupleIndex
+            BlankRow = IndexPosStart[0]
+            BlankCol = IndexPosStart[1]
+            
+            Move1 = Move()
+            Move2 = Move()
+            Move3 = Move()
+            Move4 = Move()
+            
+            if BlankCol != 0: #skip west if border
+                Move1 = BlankCol - 1
+                Move1Cost = 2
+                ### Add function call to add to PQFrontier both the move and the cost###
+            
+            if BlankRow != 0: #skip north if border
+                Move2 = BlankRow - 1 
+                Move2Cost = 1
+                ### Add function call to add to PQFrontier both the move and the cost###
+                
+            if BlankCol != len(self.arrayBoard) - 1: #skip east if border
+                Move3 = BlankCol + 1 
+                Move3Cost = 2
+                ### Add function call to add to PQFrontier both the move and the cost###
+            
+            if BlankRow != len(self.arrayBoard) - 1: #skip south if border
+                Move4 = BlankRow + 1 
+                Move4Cost = 4
+                ### Add function call to add to PQFrontier both the move and the cost###
+        
+        def fnCalculateH(self, CurrentIndex = (), GoalIndex = (), GoalBoard = None):
+            if GoalBoard is not None:
+                if CurrentIndex == ():
+                    CurrentIndex = self.fnFindBlank()
+                if GoalIndex == ():
+                    GoalBoard.fnFindBlank()
+            else:
+                print("Hey, I think you need to setup a GoalBoard before we keep going")
             pass
         
-        def fnCalculateH(self):
+        def fnCalculateG(self, CostOfNewMove, PreviousG = None):
+            """Can be used to calculate g(n) """
+            if PreviousG == None:
+                PreviousG = copy.deepcopy(self.gFunctionValue)
+            
+            NewG = PreviousG + CostOfNewMove
+            return NewG
             pass
         
-        def fnCalculateG(self):
-            pass
-        
-        def fnCalculateF(self):
-            pass
+        def fnCalculateF(self, GValue = None, HValue = None):
+            if GValue == None:
+                GValue = self.gFunctionValue
+            if HValue == None:
+                HValue = self.hFunctionValue
+                
+            CurrentF = GValue + HValue
+            return CurrentF
