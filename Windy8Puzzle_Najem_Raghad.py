@@ -38,6 +38,18 @@ class Puzzle: #Raghad and #Najem
             self.GValue = GValue
             self.HValue = HValue
             
+        def __gt__(self):
+            pass
+        
+        def __eq__(self):
+            pass
+        
+        def __lt__(self):
+            pass
+        
+        def fnFindGoalIndex(self, GoalBoard):
+            self.PuzzleGoalIndex = GoalBoard.fnFindBlank()
+            
 
     class Board:
         """Class to store all board types and related functions"""
