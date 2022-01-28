@@ -1,3 +1,4 @@
+"""RETIRE THIS CODE USING DIFFERENT FILE"""
 class Puzzle:
     """This is the class that holds the whole game"""
     pass
