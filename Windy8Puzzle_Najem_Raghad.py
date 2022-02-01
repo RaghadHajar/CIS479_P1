@@ -53,11 +53,11 @@ class Puzzle: #Raghad and #Najem
 
     class Board:
         """Class to store all board types and related functions"""
-        def __init__(self,NumRow,NumCol):
+        def __init__(self,NumRow=3,NumCol=3): #initial state
             self.arrayBoard = [[0]*NumCol for i in range(NumRow)]
-            self.fFunctionValue = 0 #Maps to right
+            self.fFunctionValue = 0 #Doesn't map
             self.gFunctionValue = 0  #Maps to left
-            self.hFunctionValue = None  #Doesn't map
+            self.hFunctionValue = 0  #Maps to right
             self.ExpansionSetNum = 1 #Bottom Row with a # before the number ex #1
             self.BoardOutput = ""
             self.FrontierSet = MinPQ
@@ -69,10 +69,31 @@ class Puzzle: #Raghad and #Najem
                 for col in range(len(self.arrayBoard[row])):
                     if col == 0 and row == 0:
                         self.BoardOutput += "|"
-                    if row == len(self.arrayBoard) and col == len(self.arrayBoard):
+                    self.BoardOutput += self.arrayBoard[row][col]
+                    if row == len(self.arrayBoard) and col == len(self.arrayBoard[row]):
                         self.BoardOutput += "_"*len(self.arrayBoard)*2
+                    if col == len(self.arrayBoard[row])
+                        self.BoardOutput += "|"
+            self.BoardOutput += "| "
+            self.BoardOutput += str(self.gFunctionValue)
+            self.BoardOutput += " | "
+            self.BoardOutput += str(self.hFunctionValue)
+            self.BoardOutput += " |\n"
+            self.BoardOutput += "_"*len(self.arrayBoard)*2
+            self.BoardOutput += "\n|"
+            self.BoardOutput += " "*len(self.arrayBoard)
+            self.BoardOutput += "#"
+            self.BoardOutput += str(self.ExpansionSetNum)
+            self.BoardOutput += " "*len(self.arrayBoard)
+            self.BoardOutput += "_"*len(self.arrayBoard)*2
+            self.BoardOutput += "|\n"
+            print(self.BoardOutput)
+            
+                    
+            
+            
                         
-        def __eq__(self, OtherBoard):
+        def __eq__(self, OtherBoard): #comparing goal and initial 
             listTruthValues = []
             if (len(self.arrayBoard) == len(OtherBoard.arrayBoard)):
                 for row in range(len(self.arrayBoard)):
@@ -120,7 +141,7 @@ class Puzzle: #Raghad and #Najem
             Update frontier set PQ with possible moves.
             """
             Move1 = Move()
-            Move2 = Move()
+            Move2 = Movre()
             Move3 = Move()
             Move4 = Move()
             
