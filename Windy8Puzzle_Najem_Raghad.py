@@ -1,22 +1,26 @@
+import heapq
+import math
+
 class Puzzle: #Raghad and #Najem
     """This is the class that holds the whole game"""
-    pass
 
     class MinPQ:
         """A minimum priority queue. 
         Can be used for ordering h(n), selecting f(n) and must be used for the frontier set
         As directed by the professor we do not have to build from scrath
         use an implementation of heapq. Library info found here:"""
-        #https://thepythoncorner.com/posts/2020-08-21-hash-tables-understanding-dictionaries/ """
+        ##https://docs.python.org/3/library/heapq.html """
 
-        pass
+        def __init__(self):
+            self.pq = heapq
     
     class Hashtable:
         """Data structure to be used for storage of explored set. 
         Will be used at the end of the puzzle to print all boards for the path
         As directed by the porfessor we do not have to build from scratch
         Using code from"""
-         ##https://docs.python.org/3/library/heapq.html """
+        #https://thepythoncorner.com/posts/2020-08-21-hash-tables-understanding-dictionaries/ """
+         
         
         pass
     
@@ -60,34 +64,34 @@ class Puzzle: #Raghad and #Najem
             self.hFunctionValue = 0  #Maps to right
             self.ExpansionSetNum = 1 #Bottom Row with a # before the number ex #1
             self.BoardOutput = ""
-            self.FrontierSet = MinPQ
+            self.FrontierSet = []#MinPQ
             
-        def __print__(self):
+        def __repr__(self):
             for row in range(len(self.arrayBoard)):
                 if row == 0:
-                    self.BoardOutput = "_"*len(self.arrayBoard)*2 + "/n"
+                    self.BoardOutput = "_"*len(self.arrayBoard)*4 + "\n"
                 for col in range(len(self.arrayBoard[row])):
-                    if col == 0 and row == 0:
-                        self.BoardOutput += "|"
-                    self.BoardOutput += self.arrayBoard[row][col]
+                    if col == 0:
+                        self.BoardOutput += "| "
+                    self.BoardOutput += " " + str(self.arrayBoard[row][col]) + " "
                     if row == len(self.arrayBoard) and col == len(self.arrayBoard[row]):
-                        self.BoardOutput += "_"*len(self.arrayBoard)*2
-                    if col == len(self.arrayBoard[row])
+                        self.BoardOutput += "_"*len(self.arrayBoard)*4
+                    if col == len(self.arrayBoard[row]):
                         self.BoardOutput += "|"
-            self.BoardOutput += "| "
+                self.BoardOutput += " |\n"
+            self.BoardOutput += "_"*len(self.arrayBoard)*4 + "\n"
+            self.BoardOutput += "|" + "  "
             self.BoardOutput += str(self.gFunctionValue)
-            self.BoardOutput += " | "
+            self.BoardOutput += "  " + "|" + "  "
             self.BoardOutput += str(self.hFunctionValue)
-            self.BoardOutput += " |\n"
-            self.BoardOutput += "_"*len(self.arrayBoard)*2
-            self.BoardOutput += "\n|"
-            self.BoardOutput += " "*len(self.arrayBoard)
+            self.BoardOutput += "  "+ "|\n"
+            self.BoardOutput += "_"*len(self.arrayBoard)*4
+            self.BoardOutput += "\n"
+            self.BoardOutput += " "*(len(self.arrayBoard)+2)
             self.BoardOutput += "#"
             self.BoardOutput += str(self.ExpansionSetNum)
             self.BoardOutput += " "*len(self.arrayBoard)
-            self.BoardOutput += "_"*len(self.arrayBoard)*2
-            self.BoardOutput += "|\n"
-            print(self.BoardOutput)
+            return self.BoardOutput
             
                     
             
