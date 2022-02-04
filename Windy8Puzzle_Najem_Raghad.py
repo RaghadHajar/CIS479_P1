@@ -14,16 +14,6 @@ class Puzzle: #Raghad and #Najem
         def __init__(self):
             self.pq = heapq
     
-    class Hashtable:
-        """Data structure to be used for storage of explored set. 
-        Will be used at the end of the puzzle to print all boards for the path
-        As directed by the porfessor we do not have to build from scratch
-        Using code from"""
-        #https://thepythoncorner.com/posts/2020-08-21-hash-tables-understanding-dictionaries/ """
-         
-        
-        pass
-    
     class Move:
         def __init__(self
         ,StartingIndex = ()
@@ -92,21 +82,20 @@ class Puzzle: #Raghad and #Najem
             self.BoardOutput += str(self.ExpansionSetNum)
             self.BoardOutput += " "*len(self.arrayBoard)
             return self.BoardOutput
-            
-                    
-            
-            
                         
         def __eq__(self, OtherBoard): #comparing goal and initial 
             listTruthValues = []
             if (len(self.arrayBoard) == len(OtherBoard.arrayBoard)):
                 for row in range(len(self.arrayBoard)):
-                    for col in range(len(self.arrayBoard)):
+                    for col in range(len(self.arrayBoard[row])):
                         if self.arrayBoard[row][col] != OtherBoard.arrayBoard[row][col]:
                             return False
+                        else:
+                            listTruthValues.append((row,col))
+                if len(listTruthValues) == len(self.arrayBoard) * len(self.arrayBoard[0]):
+                    return True
             else:
                 return False
-                
                 
         def __setattr__(self,Name,Value):
             self.__dict__[Name] = Value
@@ -127,16 +116,16 @@ class Puzzle: #Raghad and #Najem
     
         def fnFind(self, PuzzleNum):
             for row in range(len(self.arrayBoard)):
-                if PuzzleNum in range(len(self.arrayBoard[row])):
-                    for col in self.arrayBoard[row]:
-                        if PuzzleNum == self.arrayBoard[row][col]:
-                            IndexPosition = (row, col)
-                            return (IndexPosition)
+                for col in range(len(self.arrayBoard[row])):
+                    if PuzzleNum == self.arrayBoard[row][col]:
+                        IndexPosition = (row, col)
+                        return (IndexPosition)
                 else:
                     next
                     
         def fnFindBlank(self):
-            Find(self, '-')
+            IndexPosition = self.fnFind("-")
+            return IndexPosition
             
         def fnFindPossibleMoves(self, tupleIndex=()):
             """ Check for the possible movesets in the directed way:
@@ -145,7 +134,7 @@ class Puzzle: #Raghad and #Najem
             Update frontier set PQ with possible moves.
             """
             Move1 = Move()
-            Move2 = Movre()
+            Move2 = Move()
             Move3 = Move()
             Move4 = Move()
             
