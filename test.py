@@ -1,6 +1,26 @@
 import pprint
 import Puzzle as p
 
+GoalBoard = p.Puzzle.Board()
+GoalVector = [1,2,3,4,"-",5,6,7,8]
+GoalBoard.fnPopulateBoard(GoalVector)
+
+InitialBoard = p.Puzzle.Board()
+OtherBoard = p.Puzzle.Board()
+InitialVector = [3,2,1,5,"-",4,7,8,6]
+InitialBoard.fnPopulateBoard(InitialVector)
+OtherBoard.fnPopulateBoard(InitialVector)
+
+
+ExpansionSet = {InitialBoard.ExpansionSetNum : InitialBoard,InitialBoard.ExpansionSetNum + 1 : GoalBoard}
+
+for board in ExpansionSet.values():
+    print(board)
+    
+print(InitialBoard.fnFind("-"))
+
+
+"""
 class Hashtable: #Code from https://thepythoncorner.com/posts/2020-08-21-hash-tables-understanding-dictionaries/
     def __init__(self, elements):
         self.bucket_size = len(elements)
@@ -39,3 +59,4 @@ ExpansionSet = [(InitialBoard.ExpansionSetNum, InitialBoard),((InitialBoard.Expa
 ExpansionSetHash = Hashtable(ExpansionSet)
 
 print(ExpansionSetHash)
+"""
