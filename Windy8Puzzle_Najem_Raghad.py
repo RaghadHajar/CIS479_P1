@@ -11,9 +11,6 @@ class Puzzle: #Raghad and #Najem
         As directed by the professor we do not have to build from scrath
         use an implementation of heapq. Library info found here:"""
         ##https://docs.python.org/3/library/heapq.html """
-
-        def __init__(self):
-            self.pq = heapq
     
     class Move:
         def __init__(self
@@ -34,18 +31,59 @@ class Puzzle: #Raghad and #Najem
             self.GValue = GValue
             self.HValue = HValue
             self.FValue = FValue
+            self.NewBoard = Puzzle.Board()
             
-        def __gt__(self):
-            pass
+        def __gt__(self, Other):
+            if isinstance(Other, Puzzle.Move):
+                if self.FValue > Other.FValue:
+                    return True
+                elif self.FValue == Other.FValue:
+                    if self.InitialOrder > Other.InitialOrder:
+                        return True
+            elif isinstance(Other, int):
+                if self.FValue > Other:
+                    return True
+                elif self.FValue == Other:
+                    if self.InitialOrder > Other:
+                        return True
         
-        def __eq__(self):
-            pass
+        def __eq__(self, Other):
+            if isinstance(Other, Puzzle.Move):
+                if self.FValue != Other.FValue:
+                    return False
+                elif self.FValue == Other.FValue:
+                    if self.InitialOrder == Other.InitialOrder:
+                        if self.NewBoard == Other.NewBoard:
+                            return True
+            elif isinstance(Other, int):
+                if self.FValue != Other:
+                    return False
+                elif self.FValue == Other:
+                    if self.InitialOrder == Other:
+                            return True
+                
         
-        def __lt__(self):
-            pass
+        def __lt__(self, Other):
+            if isinstance(Other, Puzzle.Move):
+                if self.FValue > Other.FValue:
+                    return False
+                elif self.FValue < Other.FValue:
+                    return True
+                elif self.FValue == Other.FValue:
+                    if self.InitialOrder < Other.InitialOrder:
+                        return True
+            elif isinstance(Other, int):
+                if self.FValue > Other:
+                    return False
+                elif self.FValue < Other:
+                    return True
+                elif self.FValue == Other:
+                    if self.InitialOrder < Other:
+                        return True
+                
         
         def Output(self):
-            Output = (self.FValue, self.InitialOrder)
+            Output = (int(self.FValue), self.InitialOrder)
             return Output
             
 
@@ -172,14 +210,21 @@ class Puzzle: #Raghad and #Najem
                 StartingIndex = (BlankRow, BlankCol)
                 ,InitialOrder = 4)
             
+            MoveList = []
+            heapq.heapify(MoveList)
+            
             if BlankCol != 0: #skip west if border
                 Move1.GValue = self.gFunctionValue + 2
                 Move1.NewIndex = (BlankRow, BlankCol - 1)
                 Move1.PuzzleNum = self.arrayBoard[Move1.NewIndex[0]][Move1.NewIndex[1]]
                 PossibleExpansionSet1 = self.fnSwap(IndexPosStart, Move1.NewIndex)
+                PossibleExpansionSet1.ExpansionSetNum += 1
                 Move1.HValue = PossibleExpansionSet1.fnCalculateH(GoalBoard)
                 Move1.FValue = Move1.HValue + Move1.GValue
-                tupleMove1 = Move1.Output()
+                Move1.NewBoard = PossibleExpansionSet1
+                Move1.NewBoard.gFunctionValue = Move1.GValue
+                Move1.NewBoard.fFunctionValue = Move1.FValue
+                heapq.heappush(MoveList, Move1)
                 ### Add function call to add to PQFrontier both the move and the cost###
             
             if BlankRow != 0: #skip north if border
@@ -187,9 +232,13 @@ class Puzzle: #Raghad and #Najem
                 Move2.NewIndex = (BlankRow - 1, BlankCol)
                 Move2.PuzzleNum = self.arrayBoard[Move2.NewIndex[0]][Move2.NewIndex[1]]
                 PossibleExpansionSet2 = self.fnSwap(IndexPosStart, Move2.NewIndex)
+                PossibleExpansionSet2.ExpansionSetNum += 1
                 Move2.HValue = PossibleExpansionSet2.fnCalculateH(GoalBoard)
                 Move2.FValue = Move2.HValue + Move2.GValue
-                tupleMove2 = Move2.Output()
+                Move2.NewBoard = PossibleExpansionSet2
+                Move2.NewBoard.gFunctionValue = Move2.GValue
+                Move2.NewBoard.fFunctionValue = Move2.FValue
+                heapq.heappush(MoveList, Move2)
                 ### Add function call to add to PQFrontier both the move and the cost###
                 
             if BlankCol != len(self.arrayBoard[0]) - 1: #skip east if border
@@ -197,9 +246,13 @@ class Puzzle: #Raghad and #Najem
                 Move3.NewIndex = (BlankRow, BlankCol + 1)
                 Move3.PuzzleNum = self.arrayBoard[Move3.NewIndex[0]][Move3.NewIndex[1]]
                 PossibleExpansionSet3 = self.fnSwap(IndexPosStart, Move3.NewIndex)
+                PossibleExpansionSet3.ExpansionSetNum += 1
                 Move3.HValue = PossibleExpansionSet3.fnCalculateH(GoalBoard)
                 Move3.FValue = Move3.HValue + Move3.GValue
-                tupleMove3 = Move3.Output()
+                Move3.NewBoard = PossibleExpansionSet3
+                Move3.NewBoard.gFunctionValue = Move3.GValue
+                Move3.NewBoard.fFunctionValue = Move3.FValue
+                heapq.heappush(MoveList, Move3)
                 ### Add function call to add to PQFrontier both the move and the cost###
             
             if BlankRow != len(self.arrayBoard) - 1: #skip south if border
@@ -207,11 +260,16 @@ class Puzzle: #Raghad and #Najem
                 Move4.NewIndex = (BlankRow + 1, BlankCol)
                 Move4.PuzzleNum = self.arrayBoard[Move4.NewIndex[0]][Move4.NewIndex[1]]
                 PossibleExpansionSet4 = self.fnSwap(IndexPosStart, Move4.NewIndex)
+                PossibleExpansionSet4.ExpansionSetNum += 1
                 Move4.HValue = PossibleExpansionSet4.fnCalculateH(GoalBoard)
                 Move4.FValue = Move4.HValue + Move4.GValue
-                tupleMove4 = Move4.Output()
+                Move4.NewBoard = PossibleExpansionSet4
+                Move4.NewBoard.gFunctionValue = Move4.GValue
+                Move4.NewBoard.fFunctionValue = Move4.FValue
+                heapq.heappush(MoveList, Move4)
                 ### Add function call to add to PQFrontier both the move and the cost###
-            return(Move1.Output(), Move2.Output(), Move3.Output(), Move4.Output())
+            #NewMoveList = Puzzle.heapsort(MoveList)
+            return(MoveList)
             
         def fnCalculateH(self, GoalBoard, CurrentIndex = (), GoalIndex = ()):
             if GoalBoard is not None:
@@ -231,7 +289,8 @@ class Puzzle: #Raghad and #Najem
             else:
                 print("Hey, I think you need to setup a GoalBoard before we keep going")
             
-            return CurrentH
+            self.hFunctionValue = int(CurrentH)
+            return int(CurrentH)
         
         def fnCalculateG(self, CostOfNewMove, PreviousG = None):
             """Can be used to calculate g(n) """
@@ -239,8 +298,9 @@ class Puzzle: #Raghad and #Najem
                 PreviousG = copy.deepcopy(self.gFunctionValue)
             
             NewG = PreviousG + CostOfNewMove
+            self.gFunctionValue = NewG
             return NewG
-            pass
+            
         
         def fnCalculateF(self, GValue = None, HValue = None):
             if GValue == None:
@@ -249,4 +309,5 @@ class Puzzle: #Raghad and #Najem
                 HValue = self.hFunctionValue
                 
             CurrentF = GValue + HValue
+            self.fFunctionValue = CurrentF
             return CurrentF
